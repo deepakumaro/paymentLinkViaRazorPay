@@ -1,6 +1,6 @@
 const https = require('https');
-
-/*https method for https request */
+const http = require('http')
+/*https Post method for https request */
 exports.postCurl = (headersForCurlRequest,data) => {
     try {
         return new Promise ((resolve,rejects)=>{
@@ -15,6 +15,26 @@ exports.postCurl = (headersForCurlRequest,data) => {
                 resolve(JSON.parse(error));
               })
               req.write(data)
+              req.end()
+        })
+    } catch (error) {
+        return error;
+    }
+}
+
+/*https Get method for https request */
+exports.getCurl = (url) => {
+    try {
+        return new Promise ((resolve,rejects)=>{
+             const req = http.get(url, res => {
+                res.on('data', d => {
+                    console.log(d);
+                    resolve(JSON.parse(d));
+                })
+              })
+              req.on('error', error => {
+                resolve(JSON.parse(error));
+              })
               req.end()
         })
     } catch (error) {

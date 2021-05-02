@@ -98,10 +98,15 @@ const savePayments = async(data,merchantId) => {
 
 /*callback method after post payment */
 
-exports.callbackFn = (req,res)=>{
+exports.callbackFn = async(req,res)=>{
   try {
-    console.log(">>>>>> req.query",req.query);
+    // console.log(req);
+    let {razorpay_payment_link_reference_id,razorpay_payment_link_status} = req.query;
+    let url = "http://localhost:3000"+req.originalUrl;
+    let callbackResponse =  await commonUtils.getCurl(url)
+    let updatePayment = await paymentsModel.findOneAndUpdate({reference_id:razorpay_payment_link_reference_id},{callbackResponse});
+    return res.status(500).send("sucessful");
   } catch (error) {
-    console.log(">>>>>>>>",error);
+    return res.status(500).send("something went wrong"+error);
   }
 }

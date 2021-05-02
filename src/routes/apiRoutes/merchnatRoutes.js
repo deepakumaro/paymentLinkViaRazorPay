@@ -8,7 +8,7 @@ const merchnatController = require('../../controllers/merchnatController');
 
 /* Payment links Api routes */
 
-router.post('/getPaymentDetails',merchnatController.getMerchnatPaymentsDetails);
+router.get('/getPaymentDetails',merchnatController.getMerchnatPaymentsDetails);
 
 
 module.exports = router;
